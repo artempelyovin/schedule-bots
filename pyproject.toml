@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "schedule-bots"
+version = "0.1.0"
+description = ""
+authors = ["Artem Pelevin <artempelevin@list.ru>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+
+[tool.poetry.dependencies]
+python = "~3.11"
+fastapi = "~0.109.1"
+uvicorn = {extras = ["standart"], version = "~0.27.0"}
+pydantic = "^2.6.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.7.1"
+ruff = "^0.2.0"
+
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py311"
+
+
+[tool.pylint]
+max-line-length = 120
+init-hook = 'import sys; sys.path.append("src/")'    # Make `src/` the root directory
+# C0114 - Disable warning for the module docstring
+# C0115 - Disable warning for the class docstring
+# C0116 - Disable warning for the function docstring
+disable = "C0114, C0115, C0116"
+
+
+[tool.mypy]
+ignore_missing_imports = true
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
