@@ -12,6 +12,8 @@ python = "~3.11"
 fastapi = "~0.109.1"
 uvicorn = {extras = ["standart"], version = "~0.27.0"}
 pydantic = "^2.6.0"
+sqlalchemy = "^2.0.25"
+alembic = "^1.13.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -23,15 +25,6 @@ ruff = "^0.2.0"
 line-length = 120
 indent-width = 4
 target-version = "py311"
-
-
-[tool.pylint]
-max-line-length = 120
-init-hook = 'import sys; sys.path.append("src/")'    # Make `src/` the root directory
-# C0114 - Disable warning for the module docstring
-# C0115 - Disable warning for the class docstring
-# C0116 - Disable warning for the function docstring
-disable = "C0114, C0115, C0116"
 
 
 [tool.mypy]
