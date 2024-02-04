@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Any, Type
+from typing import Generic, TypeVar, Any, Type, Iterable
 
 from pydantic import BaseModel, Field
 from starlette.status import HTTP_200_OK
@@ -45,7 +45,7 @@ class ResponseList(_BaseResponse[PydanticModel]):
 
 def write_response_list(  # TODO: объединить в будущем в `write_response`, сделав нормальный function-generic
     serializer: Type[PydanticModel],
-    content: list[Any],
+    content: Iterable[Any],
     status_code: int = HTTP_200_OK,
     error: bool = False,
     detail: str | None = None,
