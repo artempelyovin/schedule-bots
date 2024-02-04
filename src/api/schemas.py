@@ -1,3 +1,4 @@
+from datetime import time
 from enum import IntEnum
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -23,6 +24,22 @@ class DayOfWeek(IntEnum):
 
 class _OrmBaseModel(BaseModel):
     model_config = ConfigDict(from_attributes=True)
+
+
+class ScheduleDetailedScheme(_OrmBaseModel):
+    id: int = Field(description="ID строки занятия")
+    day: DayOfWeek = Field(
+        description="День недели, к рамках которого предоставлено занятие", examples=[DayOfWeek.TUESDAY]
+    )
+    start_time: time = Field(description="Время начала занятия (формат: `ЧЧ:ММ:СС`)", examples=[time(8, 30, 00)])
+    end_time: time = Field(description="Время окончания занятия (формат: `ЧЧ:ММ:СС`)", examples=[time(10, 00, 00)])
+    content: str = Field(
+        description="Описание занятия",
+        examples=[
+            "Численные методы параллельной обработки данных лк 420-3 Лексин А.Ю.",
+            "Вариационное исчисление лб 106-3 Прохоров А.В.",
+        ],
+    )
 
 
 class GroupShortScheme(_OrmBaseModel):
@@ -74,7 +91,7 @@ class UniversityDetailScheme(UniversityShortScheme):
     )
     description: str = Field(
         description="Короткое описание института",
-        examples=["один из ведущих вузов ЦФО, центр инновационного, технологического и социального развития региона."],
+        examples=["Один из ведущих вузов ЦФО, центр инновационного, технологического и социального развития региона."],
     )
     institutes: list[InstituteShortScheme] = Field(
         description="Список институтов, прикреплённых к данному университету"
