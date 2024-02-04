@@ -26,4 +26,4 @@ lint:
 
 .PHONY: start-dev-server
 start-dev-server:
-	PYTHONPATH=$(PROJECT_DIR)/src/ uvicorn src.app:app --host 127.0.0.1 --port 8000 --reload
+	PYTHONPATH=$(PROJECT_DIR)/src/ uvicorn src.be.app:app --host 127.0.0.1 --port 8000 --reload
