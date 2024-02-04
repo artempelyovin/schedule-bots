@@ -5,8 +5,7 @@ from pydantic import BaseModel, Field
 PydanticModel = TypeVar("PydanticModel", bound=BaseModel)
 
 
-class Response(BaseModel, Generic[PydanticModel]):
-    data: PydanticModel | None = None
+class _BaseResponse(BaseModel, Generic[PydanticModel]):
     status_code: int = Field(default=200, description="HTTP статус код")
     error: bool = Field(
         default=False,
@@ -18,7 +17,11 @@ class Response(BaseModel, Generic[PydanticModel]):
     )
 
 
-class ResponseList(Response, Generic[PydanticModel]):
+class Response(_BaseResponse[PydanticModel]):
+    data: PydanticModel | None = None
+
+
+class ResponseList(_BaseResponse[PydanticModel]):
     data: list[PydanticModel]
 
 
