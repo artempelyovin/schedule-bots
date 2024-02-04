@@ -29,6 +29,7 @@ indent-width = 4
 target-version = "py311"
 fix = true
 
+
 [tool.ruff.lint]
 fixable = ["I"]  # fix only `isort`
 select = [
@@ -78,6 +79,7 @@ ignore = [
 [tool.mypy]
 ignore_missing_imports = true
 strict = true
+
 
 [build-system]
 requires = ["poetry-core"]
