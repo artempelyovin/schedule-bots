@@ -1,25 +1,25 @@
 from datetime import time
-from enum import IntEnum
+from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
 
 
-class Course(IntEnum):
-    FIRST = 1
-    SECOND = 2
-    THIRD = 3
-    FOURTH = 4
-    FIFTH = 5
+class Course(StrEnum):
+    FIRST = "FIRST"
+    SECOND = "SECOND"
+    THIRD = "THIRD"
+    FOURTH = "FOURTH"
+    FIFTH = "FIFTH"
 
 
-class DayOfWeek(IntEnum):
-    MONDAY = 1
-    TUESDAY = 2
-    WEDNESDAY = 3
-    THURSDAY = 4
-    FRIDAY = 5
-    SATURDAY = 6
-    SUNDAY = 7
+class DayOfWeek(StrEnum):
+    MONDAY = "MONDAY"
+    TUESDAY = "TUESDAY"
+    WEDNESDAY = "WEDNESDAY"
+    THURSDAY = "THURSDAY"
+    FRIDAY = "FRIDAY"
+    SATURDAY = "SATURDAY"
+    SUNDAY = "SUNDAY"
 
 
 class _OrmBaseModel(BaseModel):
