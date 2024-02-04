@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 
-from api.exceptions import http_exception_handler
-from api.university.routers import router as university_router
+from src.api.exceptions import http_exception_handler
+from src.api.university.routers import router as university_router
 
 
 def make_app() -> FastAPI:

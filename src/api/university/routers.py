@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
-from api.university.schemas import UniversityScheme
-from api.utils import Response, ResponseList, write_response
+from src.api.university.schemas import UniversityScheme
+from src.api.utils import Response, ResponseList, write_response
 
 router = APIRouter(tags=[""])
 
