@@ -1,12 +1,13 @@
 from typing import Generic, TypeVar
 
 from pydantic import BaseModel, Field
+from starlette.status import HTTP_200_OK
 
 PydanticModel = TypeVar("PydanticModel", bound=BaseModel)
 
 
 class _BaseResponse(BaseModel, Generic[PydanticModel]):
-    status_code: int = Field(default=200, description="HTTP статус код")
+    status_code: int = Field(default=HTTP_200_OK, description="HTTP статус код")
     error: bool = Field(
         default=False,
         description="Наличие ошибки (`true`, если присутствует ошибка и `false` в противном случае)",
@@ -22,7 +23,10 @@ class Response(_BaseResponse[PydanticModel]):
 
 
 def write_response(
-    content: PydanticModel | list[PydanticModel], status_code: int = 200, error: bool = False, detail: str | None = None
+    content: PydanticModel | list[PydanticModel],
+    status_code: int = HTTP_200_OK,
+    error: bool = False,
+    detail: str | None = None,
 ) -> Response[PydanticModel]:
     return Response[PydanticModel].model_validate(
         {
@@ -39,7 +43,7 @@ class ResponseList(_BaseResponse[PydanticModel]):
 
 
 def write_response_list(  # TODO: объединить в будущем в `write_response`, сделав нормальный function-generic
-    content: list[PydanticModel], status_code: int = 200, error: bool = False, detail: str | None = None
+    content: list[PydanticModel], status_code: int = HTTP_200_OK, error: bool = False, detail: str | None = None
 ) -> ResponseList[PydanticModel]:
     return ResponseList[PydanticModel].model_validate(
         {

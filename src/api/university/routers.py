@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-
+from starlette.status import HTTP_404_NOT_FOUND
 from src.api.university.schemas import UniversityScheme
 from src.api.utils import Response, ResponseList, write_response, write_response_list
 
@@ -25,6 +25,6 @@ async def get_university(university_id: int) -> Response[UniversityScheme]:
         if university.id == university_id:
             return write_response(university)
     raise HTTPException(
-        status_code=404,
+        status_code=HTTP_404_NOT_FOUND,
         detail=f"Университет с ID={university_id} не найден",
     )
