@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from src.api.university.schemas import UniversityScheme
-from src.api.utils import Response, ResponseList, write_response
+from src.api.utils import Response, ResponseList, write_response, write_response_list
 
 router = APIRouter(tags=[""])
 
@@ -16,7 +16,7 @@ ALL_UNIVERSITIES = [  # TODO(issue-1): Доставать университет
 
 @router.get("/api/v1/universities")
 async def get_universities() -> ResponseList[UniversityScheme]:
-    return write_response(ALL_UNIVERSITIES)
+    return write_response_list(ALL_UNIVERSITIES)
 
 
 @router.get("/api/v1/universities/{university_id}")

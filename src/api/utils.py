@@ -21,22 +21,31 @@ class Response(_BaseResponse[PydanticModel]):
     data: PydanticModel | None = None
 
 
+def write_response(
+    content: PydanticModel | list[PydanticModel], status_code: int = 200, error: bool = False, detail: str | None = None
+) -> Response[PydanticModel]:
+    return Response[PydanticModel].model_validate(
+        {
+            "data": content,
+            "status_code": status_code,
+            "error": error,
+            "detail": detail,
+        }
+    )
+
+
 class ResponseList(_BaseResponse[PydanticModel]):
     data: list[PydanticModel]
 
 
-def write_response(
-    content: PydanticModel | list[PydanticModel],
-    status_code: int = 200,
-    error: bool = False,
-    detail: str | None = None,
-) -> Response[PydanticModel] | ResponseList[PydanticModel]:
-    response_json = {
-        "data": content,
-        "status_code": status_code,
-        "error": error,
-        "detail": detail,
-    }
-    if isinstance(content, list):
-        return ResponseList[PydanticModel].model_validate(response_json)
-    return Response[PydanticModel].model_validate(response_json)
+def write_response_list(  # TODO: объединить в будущем в `write_response`, сделав нормальный function-generic
+    content: list[PydanticModel], status_code: int = 200, error: bool = False, detail: str | None = None
+) -> ResponseList[PydanticModel]:
+    return ResponseList[PydanticModel].model_validate(
+        {
+            "data": content,
+            "status_code": status_code,
+            "error": error,
+            "detail": detail,
+        }
+    )
