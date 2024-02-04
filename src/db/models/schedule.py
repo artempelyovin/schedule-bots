@@ -1,20 +1,10 @@
 from datetime import time
-from enum import IntEnum
 
 from sqlalchemy import Text, ForeignKey, Time, Enum
 from sqlalchemy.orm import Mapped, mapped_column
 
+from src.api.schemas import DayOfWeek
 from src.db.models.base import Base
-
-
-class DayOfWeek(IntEnum):
-    MONDAY = 1
-    TUESDAY = 2
-    WEDNESDAY = 3
-    THURSDAY = 4
-    FRIDAY = 5
-    SATURDAY = 6
-    SUNDAY = 7
 
 
 class Schedule(Base):
