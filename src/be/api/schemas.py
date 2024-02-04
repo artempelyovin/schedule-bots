@@ -52,10 +52,6 @@ class GroupDetailScheme(GroupShortScheme):
         description="Расшифровка аббревиатуры группы",
         examples=["Прикладная математика и информатика"],
     )
-    description: str = Field(
-        description="Короткое описание группы",
-        examples=["Подготовка компетентных специалистов в области разработки программного обеспечения"],
-    )
     course: Course = Field(description="Курс", examples=[Course.FIRST])
     is_master_program: bool = Field(description="Является ли группа магистратурой?", examples=[False])
 
@@ -69,10 +65,6 @@ class InstituteDetailScheme(InstituteShortScheme):
     full_name: str = Field(
         description="Расшифровка аббревиатуры института",
         examples=["Институт информационных технологий и электроники"],
-    )
-    description: str = Field(
-        description="Короткое описание института",
-        examples=["Институт, созданный объединений двух других: ИПМФиИ и ИИТР"],
     )
     groups: list[GroupShortScheme] = Field(description="Список групп, прикреплённых к данному институту")
 
@@ -88,10 +80,6 @@ class UniversityDetailScheme(UniversityShortScheme):
         examples=[
             "Владимирский государственный университет имени Александра Григорьевича и Николая Григорьевича Столетовых"
         ],
-    )
-    description: str = Field(
-        description="Короткое описание института",
-        examples=["Один из ведущих вузов ЦФО, центр инновационного, технологического и социального развития региона."],
     )
     institutes: list[InstituteShortScheme] = Field(
         description="Список институтов, прикреплённых к данному университету"
