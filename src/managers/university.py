@@ -3,7 +3,7 @@ from typing import Sequence
 from sqlalchemy import select
 
 from src.db.core import Session
-from src.db.models.university import University
+from src.db.models import University
 
 
 class UniversityManager:

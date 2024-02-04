@@ -7,11 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from src.db.models.base import Base
-from src.db.models.university import University  # noqa: F401
-from src.db.models.institute import Institute  # noqa: F401
-from src.db.models.group import Group  # noqa: F401
-from src.db.models.schedule import Schedule  # noqa: F401
+from src.db.models import Base, Group, Institute, Schedule, University  # noqa: F401
 
 config = context.config
 

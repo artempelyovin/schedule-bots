@@ -1,7 +1,7 @@
 from sqlalchemy import select
 
 from src.db.core import Session
-from src.db.models.group import Group
+from src.db.models import Group
 
 
 class GroupManager:

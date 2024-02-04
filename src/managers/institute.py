@@ -1,7 +1,7 @@
 from sqlalchemy import select
 
 from src.db.core import Session
-from src.db.models.institute import Institute
+from src.db.models import Institute
 
 
 class InstituteManager:

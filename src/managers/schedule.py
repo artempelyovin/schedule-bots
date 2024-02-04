@@ -4,7 +4,7 @@ from sqlalchemy import select
 
 from src.api.schemas import DayOfWeek
 from src.db.core import Session
-from src.db.models.schedule import Schedule
+from src.db.models import Schedule
 
 
 class ScheduleManager:
