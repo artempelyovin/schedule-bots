@@ -5,14 +5,14 @@ from src.api.schemas import (
     DayOfWeek,
     GroupDetailScheme,
     InstituteDetailScheme,
-    ScheduleDetailedScheme,
+    LessonDetailedScheme,
     UniversityDetailScheme,
     UniversityShortScheme,
 )
 from src.api.utils import Response, ResponseList, write_response, write_response_list
 from src.managers.group import GroupManager
 from src.managers.institute import InstituteManager
-from src.managers.schedule import ScheduleManager
+from src.managers.lesson import LessonManager
 from src.managers.university import UniversityManager
 
 router = APIRouter(tags=[""])
@@ -48,13 +48,13 @@ async def get_group(group_id: int) -> Response[GroupDetailScheme]:
     return write_response(serializer=GroupDetailScheme, content=group)
 
 
-@router.get("/api/v1/groups/{group_id}/schedules")
-async def get_group_schedules(group_id: int) -> ResponseList[ScheduleDetailedScheme]:
-    schedules = await ScheduleManager.get_schedules_by_group(group_id)
-    return write_response_list(serializer=ScheduleDetailedScheme, content=schedules)
+@router.get("/api/v1/groups/{group_id}/lessons")
+async def get_group_lessons(group_id: int) -> ResponseList[LessonDetailedScheme]:
+    lessons = await LessonManager.get_lessons_by_group(group_id)
+    return write_response_list(serializer=LessonDetailedScheme, content=lessons)
 
 
-@router.get("/api/v1/groups/{group_id}/days/{day}/schedules")
-async def get_group_schedules_by_day(group_id: int, day: DayOfWeek) -> ResponseList[ScheduleDetailedScheme]:
-    schedules = await ScheduleManager.get_schedules_by_group_and_day(group_id, day)
-    return write_response_list(serializer=ScheduleDetailedScheme, content=schedules)
+@router.get("/api/v1/groups/{group_id}/days/{day}/lessons")
+async def get_group_lessons_by_day(group_id: int, day: DayOfWeek) -> ResponseList[LessonDetailedScheme]:
+    lessons = await LessonManager.get_lessons_by_group_and_day(group_id, day)
+    return write_response_list(serializer=LessonDetailedScheme, content=lessons)

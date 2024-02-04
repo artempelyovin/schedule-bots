@@ -10,8 +10,8 @@ class Base(DeclarativeBase):
     pass
 
 
-class Schedule(Base):
-    __tablename__ = "schedule"
+class Lesson(Base):
+    __tablename__ = "lesson"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     day: Mapped[DayOfWeek] = mapped_column(Enum(DayOfWeek))

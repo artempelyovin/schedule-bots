@@ -26,7 +26,7 @@ class _OrmBaseModel(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class ScheduleDetailedScheme(_OrmBaseModel):
+class LessonDetailedScheme(_OrmBaseModel):
     id: int = Field(description="ID строки занятия")
     day: DayOfWeek = Field(
         description="День недели, к рамках которого предоставлено занятие", examples=[DayOfWeek.TUESDAY]
