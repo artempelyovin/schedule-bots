@@ -26,7 +26,7 @@ class _OrmBaseModel(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class LessonDetailedScheme(_OrmBaseModel):
+class LessonScheme(_OrmBaseModel):
     id: int = Field(description="ID строки занятия")
     day: DayOfWeek = Field(
         description="День недели, к рамках которого предоставлено занятие", examples=[DayOfWeek.TUESDAY]
@@ -42,12 +42,9 @@ class LessonDetailedScheme(_OrmBaseModel):
     )
 
 
-class GroupShortScheme(_OrmBaseModel):
+class GroupScheme(_OrmBaseModel):
     id: int = Field(description="ID группы")
     short_name: str = Field(description="Аббревиатура группы", examples=["ПМИ"])
-
-
-class GroupDetailScheme(GroupShortScheme):
     full_name: str = Field(
         description="Расшифровка аббревиатуры группы",
         examples=["Прикладная математика и информатика"],
@@ -56,31 +53,21 @@ class GroupDetailScheme(GroupShortScheme):
     is_master_program: bool = Field(description="Является ли группа магистратурой?", examples=[False])
 
 
-class InstituteShortScheme(_OrmBaseModel):
+class InstituteScheme(_OrmBaseModel):
     id: int = Field(description="ID института")
     short_name: str = Field(description="Аббревиатура института", examples=["ИИТиЭ"])
-
-
-class InstituteDetailScheme(InstituteShortScheme):
     full_name: str = Field(
         description="Расшифровка аббревиатуры института",
         examples=["Институт информационных технологий и электроники"],
     )
-    groups: list[GroupShortScheme] = Field(description="Список групп, прикреплённых к данному институту")
 
 
-class UniversityShortScheme(_OrmBaseModel):
+class UniversityScheme(_OrmBaseModel):
     id: int = Field(description="ID университета")
     short_name: str = Field(description="Аббревиатура университета", examples=["ВлГУ"])
-
-
-class UniversityDetailScheme(UniversityShortScheme):
     full_name: str = Field(
         description="Расшифровка аббревиатуры университета",
         examples=[
             "Владимирский государственный университет имени Александра Григорьевича и Николая Григорьевича Столетовых"
         ],
-    )
-    institutes: list[InstituteShortScheme] = Field(
-        description="Список институтов, прикреплённых к данному университету"
     )

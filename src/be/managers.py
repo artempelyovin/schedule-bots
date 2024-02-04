@@ -23,13 +23,25 @@ class UniversityManager:
 
 class InstituteManager:
     @staticmethod
-    async def get_by_id(university_id: int) -> Institute | None:
+    async def get_by_university(university_id: int) -> Sequence[Institute]:
         async with Session() as session:
-            query = select(Institute).where(Institute.id == university_id)
+            query = select(Institute).where(Institute.university_id == university_id)
+            return (await session.execute(query)).unique().scalars().all()
+
+    @staticmethod
+    async def get_by_id(institute_id: int) -> Institute | None:
+        async with Session() as session:
+            query = select(Institute).where(Institute.id == institute_id)
             return (await session.execute(query)).unique().scalar_one_or_none()
 
 
 class GroupManager:
+    @staticmethod
+    async def get_by_institute(institute_id: int) -> Sequence[Group]:
+        async with Session() as session:
+            query = select(Group).where(Group.institute_id == institute_id)
+            return (await session.execute(query)).unique().scalars().all()
+
     @staticmethod
     async def get_by_id(group_id: int) -> Group | None:
         async with Session() as session:
