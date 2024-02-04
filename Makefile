@@ -20,8 +20,8 @@ format:
 
 .PHONY: lint
 lint:
-	poetry run mypy $(PROJECT_DIR)/src/
 	poetry run ruff check $(PROJECT_DIR)/src/
+	poetry run mypy $(PROJECT_DIR)/src/
 
 
 .PHONY: start-dev-server
