@@ -16,14 +16,14 @@ ALL_UNIVERSITIES = [  # TODO(issue-1): Доставать университет
 
 @router.get("/api/v1/universities")
 async def get_universities() -> ResponseList[UniversityScheme]:
-    return write_response_list(ALL_UNIVERSITIES)
+    return write_response_list(serializer=UniversityScheme, content=ALL_UNIVERSITIES)
 
 
 @router.get("/api/v1/universities/{university_id}")
 async def get_university(university_id: int) -> Response[UniversityScheme]:
     for university in ALL_UNIVERSITIES:
         if university.id == university_id:
-            return write_response(university)
+            return write_response(serializer=UniversityScheme, content=university)
     raise HTTPException(
         status_code=HTTP_404_NOT_FOUND,
         detail=f"Университет с ID={university_id} не найден",
