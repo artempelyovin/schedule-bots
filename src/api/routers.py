@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
 
-from src.api.schemas import UniversityShortScheme, UniversityDetailScheme, InstituteDetailScheme
+from src.api.schemas import UniversityShortScheme, UniversityDetailScheme, InstituteDetailScheme, GroupDetailScheme
 from src.api.utils import Response, ResponseList, write_response, write_response_list
+from src.managers.group import GroupManager
 from src.managers.institute import InstituteManager
 from src.managers.university import UniversityManager
 
@@ -35,3 +36,14 @@ async def get_institute(institute_id: int) -> Response[InstituteDetailScheme]:
             detail=f"Институт с ID={institute_id} не найден",
         )
     return write_response(serializer=InstituteDetailScheme, content=institute)
+
+
+@router.get("/api/v1/groups/{group_id}")
+async def get_group(group_id: int) -> Response[GroupDetailScheme]:
+    group = await GroupManager.get_by_id(group_id)
+    if not group:
+        raise HTTPException(
+            status_code=HTTP_404_NOT_FOUND,
+            detail=f"Группа с ID={group_id} не найдена",
+        )
+    return write_response(serializer=GroupDetailScheme, content=group)

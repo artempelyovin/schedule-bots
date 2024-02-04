@@ -15,4 +15,4 @@ class Institute(Base):
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     university_id: Mapped[int] = mapped_column(ForeignKey("university.id"))
-    groups: Mapped[list["Group"]] = relationship()
+    groups: Mapped[list["Group"]] = relationship(lazy="joined")

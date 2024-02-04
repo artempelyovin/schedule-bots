@@ -1,17 +1,8 @@
-from enum import IntEnum
-
 from sqlalchemy import String, Text, Enum, Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
+from src.api.schemas import Course
 from src.db.models.base import Base
-
-
-class Course(IntEnum):
-    FIRST = 1
-    SECOND = 2
-    THIRD = 3
-    FOURTH = 4
-    FIFTH = 5
 
 
 class Group(Base):
