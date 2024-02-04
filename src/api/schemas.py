@@ -37,3 +37,6 @@ class UniversityDetailScheme(UniversityShortScheme):
         description="Короткое описание института",
         examples=["один из ведущих вузов ЦФО, центр инновационного, технологического и социального развития региона."],
     )
+    institutes: list[InstituteShortScheme] = Field(
+        description="Список институтов, прикреплённых к данному университету"
+    )

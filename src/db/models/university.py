@@ -15,4 +15,4 @@ class University(Base):
     full_name: Mapped[str] = mapped_column(String(256), index=True, unique=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
 
-    institutes: Mapped[list["Institute"]] = relationship()
+    institutes: Mapped[list["Institute"]] = relationship(lazy="joined")

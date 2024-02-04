@@ -11,10 +11,10 @@ class UniversityManager:
     async def get_all() -> Sequence[University]:
         async with Session() as session:
             query = select(University)
-            return (await session.execute(query)).scalars().all()
+            return (await session.execute(query)).unique().scalars().all()
 
     @staticmethod
     async def get_by_id(university_id: int) -> University | None:
         async with Session() as session:
             query = select(University).where(University.id == university_id)
-            return (await session.execute(query)).scalar_one_or_none()
+            return (await session.execute(query)).unique().scalar_one_or_none()
