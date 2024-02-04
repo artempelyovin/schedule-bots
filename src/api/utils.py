@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Any, Type, Iterable
+from typing import Any, Generic, Iterable, Type, TypeVar
 
 from pydantic import BaseModel, Field
 from starlette.status import HTTP_200_OK

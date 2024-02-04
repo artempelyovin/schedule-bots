@@ -1,6 +1,6 @@
 from datetime import time
 
-from sqlalchemy import String, Text, Enum, Boolean, ForeignKey, Time
+from sqlalchemy import Boolean, Enum, ForeignKey, String, Text, Time
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 from src.api.schemas import Course, DayOfWeek
