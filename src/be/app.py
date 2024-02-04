@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 
-from src.api.exceptions import http_exception_handler
-from src.api.routers import router
+from src.be.api.exceptions import http_exception_handler
+from src.be.api.routers import router
 
 
 def make_app() -> FastAPI:

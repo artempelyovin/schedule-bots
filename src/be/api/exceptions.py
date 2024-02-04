@@ -2,7 +2,7 @@ from fastapi import HTTPException, Request
 from starlette.responses import JSONResponse
 from starlette.status import HTTP_404_NOT_FOUND
 
-from src.api.utils import Response
+from src.be.api.utils import Response
 
 
 class UniversityNotFoundException(HTTPException):

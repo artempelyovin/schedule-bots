@@ -2,9 +2,9 @@ from collections.abc import Sequence
 
 from sqlalchemy import select
 
-from src.api.schemas import DayOfWeek
-from src.db.core import Session
-from src.db.models import Group, Institute, Lesson, University
+from src.be.api.schemas import DayOfWeek
+from src.be.db.core import Session
+from src.be.db.models import Group, Institute, Lesson, University
 
 
 class UniversityManager:

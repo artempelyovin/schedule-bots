@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from src.api.exceptions import GroupNotFoundException, InstituteNotFoundException, UniversityNotFoundException
-from src.api.schemas import (
+from src.be.api.exceptions import GroupNotFoundException, InstituteNotFoundException, UniversityNotFoundException
+from src.be.api.schemas import (
     DayOfWeek,
     GroupDetailScheme,
     InstituteDetailScheme,
@@ -9,8 +9,8 @@ from src.api.schemas import (
     UniversityDetailScheme,
     UniversityShortScheme,
 )
-from src.api.utils import Response, ResponseList, write_response, write_response_list
-from src.managers import GroupManager, InstituteManager, LessonManager, UniversityManager
+from src.be.api.utils import Response, ResponseList, write_response, write_response_list
+from src.be.managers import GroupManager, InstituteManager, LessonManager, UniversityManager
 
 router = APIRouter(tags=[""])
 
