@@ -29,7 +29,6 @@ class Group(Base):
     short_name: Mapped[str] = mapped_column(String(8), index=True)  # TODO: оптимально ли 8 символов?
     # TODO: аналогично понять длину для `full_name
     full_name: Mapped[str] = mapped_column(String(64), index=True, unique=True)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
     course: Mapped[Course] = mapped_column(Enum(Course))
     is_master_program: Mapped[bool] = mapped_column(Boolean, server_default="0")
 
@@ -43,7 +42,6 @@ class Institute(Base):
     short_name: Mapped[str] = mapped_column(String(8), index=True)  # TODO: оптимально ли 8 символов?
     # TODO: аналогично понять длину для `full_name`
     full_name: Mapped[str] = mapped_column(String(256), index=True, unique=True)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     university_id: Mapped[int] = mapped_column(ForeignKey("university.id"))
     groups: Mapped[list[Group]] = relationship(lazy="joined")
@@ -57,6 +55,5 @@ class University(Base):
     short_name: Mapped[str] = mapped_column(String(8), index=True)
     # TODO: аналогично понять длину для `full_name`
     full_name: Mapped[str] = mapped_column(String(256), index=True, unique=True)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     institutes: Mapped[list[Institute]] = relationship(lazy="joined")
