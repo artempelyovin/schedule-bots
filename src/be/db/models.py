@@ -14,6 +14,7 @@ class Lesson(Base):
     __tablename__ = "lesson"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    is_numerator: Mapped[bool] = mapped_column(Boolean, server_default="0")
     day: Mapped[DayOfWeek] = mapped_column(Enum(DayOfWeek, name="day"))
     start_time: Mapped[time] = mapped_column(Time)
     end_time: Mapped[time] = mapped_column(Time)
