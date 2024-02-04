@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.api.exceptions import NotFoundException
+from src.api.exceptions import GroupNotFoundException, InstituteNotFoundException, UniversityNotFoundException
 from src.api.schemas import (
     DayOfWeek,
     GroupDetailScheme,
@@ -10,10 +10,7 @@ from src.api.schemas import (
     UniversityShortScheme,
 )
 from src.api.utils import Response, ResponseList, write_response, write_response_list
-from src.managers.group import GroupManager
-from src.managers.institute import InstituteManager
-from src.managers.lesson import LessonManager
-from src.managers.university import UniversityManager
+from src.managers import GroupManager, InstituteManager, LessonManager, UniversityManager
 
 router = APIRouter(tags=[""])
 
@@ -28,7 +25,7 @@ async def get_universities() -> ResponseList[UniversityShortScheme]:
 async def get_university(university_id: int) -> Response[UniversityDetailScheme]:
     university = await UniversityManager.get_by_id(university_id)
     if not university:
-        raise NotFoundException(f"Университет с ID={university_id} не найден")
+        raise UniversityNotFoundException(university_id)
     return write_response(serializer=UniversityDetailScheme, content=university)
 
 
@@ -36,7 +33,7 @@ async def get_university(university_id: int) -> Response[UniversityDetailScheme]
 async def get_institute(institute_id: int) -> Response[InstituteDetailScheme]:
     institute = await InstituteManager.get_by_id(institute_id)
     if not institute:
-        raise NotFoundException(f"Институт с ID={institute_id} не найден")
+        raise InstituteNotFoundException(institute_id)
     return write_response(serializer=InstituteDetailScheme, content=institute)
 
 
@@ -44,7 +41,7 @@ async def get_institute(institute_id: int) -> Response[InstituteDetailScheme]:
 async def get_group(group_id: int) -> Response[GroupDetailScheme]:
     group = await GroupManager.get_by_id(group_id)
     if not group:
-        raise NotFoundException(f"Группа с ID={group_id} не найдена")
+        raise GroupNotFoundException(group_id)
     return write_response(serializer=GroupDetailScheme, content=group)
 
 

@@ -1,4 +1,5 @@
-from typing import Any, Generic, Iterable, Type, TypeVar
+from collections.abc import Iterable
+from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel, Field
 from starlette.status import HTTP_200_OK
@@ -23,13 +24,13 @@ class Response(_BaseResponse[PydanticModel]):
 
 
 def write_response(
-    serializer: Type[PydanticModel],
+    serializer: type[PydanticModel],
     content: Any,
     status_code: int = HTTP_200_OK,
     error: bool = False,
     detail: str | None = None,
 ) -> Response[PydanticModel]:
-    return Response[serializer].model_validate(  # type: ignore
+    return Response[serializer].model_validate(  # type: ignore[valid-type]
         {
             "data": content,
             "status_code": status_code,
@@ -44,13 +45,13 @@ class ResponseList(_BaseResponse[PydanticModel]):
 
 
 def write_response_list(  # TODO: объединить в будущем в `write_response`, сделав нормальный function-generic
-    serializer: Type[PydanticModel],
+    serializer: type[PydanticModel],
     content: Iterable[Any],
     status_code: int = HTTP_200_OK,
     error: bool = False,
     detail: str | None = None,
 ) -> ResponseList[PydanticModel]:
-    return ResponseList[serializer].model_validate(  # type: ignore
+    return ResponseList[serializer].model_validate(  # type: ignore[valid-type]
         {
             "data": content,
             "status_code": status_code,

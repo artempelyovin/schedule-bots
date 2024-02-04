@@ -30,7 +30,49 @@ target-version = "py311"
 fix = true
 
 [tool.ruff.lint]
-select = ["F", "E", "I"]
+fixable = ["I"]  # fix only `isort`
+select = [
+    "F",     # Pyflakes https://pypi.org/project/pyflakes/
+    "E",     # pycodestyle Error https://pypi.org/project/pycodestyle/
+    "W",     # pycodestyle Warning https://pypi.org/project/pycodestyle/
+    "I",     # Isort https://pypi.org/project/isort/
+    "N",     # pep8-naming https://pypi.org/project/pep8-naming/
+    "UP",    # pyupgrade https://pypi.org/project/pyupgrade/
+    "YTT",   # flake8-2020 https://pypi.org/project/flake8-2020/
+    "ASYNC", # flake8-async https://pypi.org/project/flake8-async/
+    "S",     # flake8-bandit https://pypi.org/project/flake8-bandit/
+    "BLE",   # flake8-blind-except https://pypi.org/project/flake8-blind-except/
+    "B",     # flake8-bugbear https://pypi.org/project/flake8-bugbear/
+    "A",     # flake8-builtins https://pypi.org/project/flake8-builtins/
+    "C4",    # flake8-comprehensions https://pypi.org/project/flake8-comprehensions/
+    "DTZ",   # flake8-datetimez https://pypi.org/project/flake8-datetimez/
+    "EXE",   # flake8-executable https://pypi.org/project/flake8-executable/
+    "ISC",   # flake8-implicit-str-concat https://pypi.org/project/flake8-implicit-str-concat/
+    "INP",   # flake8-no-pep420 https://pypi.org/project/flake8-no-pep420/
+    "PIE",   # flake8-pie https://pypi.org/project/flake8-pie/
+    "T20",   # flake8-print https://pypi.org/project/flake8-print/
+    "PT",    # flake8-pytest-style https://pypi.org/project/flake8-pytest-style/
+    "Q",     # flake8-quotes https://pypi.org/project/flake8-quotes/
+    "RSE",   # flake8-raise https://pypi.org/project/flake8-raise/
+    "RET",   # flake8-return https://pypi.org/project/flake8-return/
+    "SLF",   # flake8-self https://pypi.org/project/flake8-self/
+    "SIM",   # flake8-simplify https://pypi.org/project/flake8_simplify/
+    "TID",   # flake8-tidy-imports https://pypi.org/project/flake8-tidy-imports/
+    "ARG",   # flake8-unused-arguments https://pypi.org/project/flake8-unused-arguments/
+    "PTH",   # flake8-use-pathlib https://pypi.org/project/flake8-use-pathlib/
+    "ERA",   # eradicate https://pypi.org/project/eradicate/
+    "PGH",   # pygrep-hooks https://github.com/pre-commit/pygrep-hooks
+    "PL",    # Pylint https://pypi.org/project/pylint/
+    "TRY",   # tryceratops https://pypi.org/project/tryceratops/
+    "FLY",   # flynt https://pypi.org/project/flynt/
+    "PERF",  # Perflint https://pypi.org/project/perflint/
+    "LOG",   # flake8-logging https://pypi.org/project/flake8-logging/
+    "RUF",   # Ruff-specific rules
+]
+ignore = [
+    "RUF001", # ambiguous-unicode-character-string
+    "RUF003", # ambiguous-unicode-character-comment
+]
 
 
 [tool.mypy]
