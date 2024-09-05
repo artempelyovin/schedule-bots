@@ -22,8 +22,3 @@ format:
 lint:
 	poetry run ruff check $(PROJECT_DIR)/src/
 	poetry run mypy $(PROJECT_DIR)/src/
-
-
-.PHONY: start-dev-server
-start-dev-server:
-	PYTHONPATH=$(PROJECT_DIR)/src/ uvicorn src.be.app:app --host 127.0.0.1 --port 8000 --reload

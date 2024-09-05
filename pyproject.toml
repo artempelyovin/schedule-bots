@@ -9,18 +9,16 @@ packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "~3.11"
-fastapi = "~0.109.1"
-uvicorn = {extras = ["standart"], version = "~0.27.0"}
-pydantic = "^2.6.0"
-sqlalchemy = "^2.0.25"
-alembic = "^1.13.1"
+pydantic = "^2.9.0"
+sqlalchemy = "^2.0.34"
+alembic = "^1.13.2"
 asyncpg = "^0.29.0"
 greenlet = "^3.0.3"  # TODO: почему `alembic` не подцепляет автоматом?
 
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^1.7.1"
-ruff = "^0.2.0"
+mypy = "^1.11.2"
+ruff = "^0.6.4"
 
 
 [tool.ruff]
