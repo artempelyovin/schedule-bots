@@ -15,7 +15,8 @@ activate-env:
 
 .PHONY: format
 format:
-	poetry run ruff format $(PROJECT_DIR)/src/
+	poetry run ruff format $(PROJECT_DIR)/src  # run `black`
+	poetry run ruff check $(PROJECT_DIR)/src --select I --fix   # run `isort`
 
 
 .PHONY: lint
