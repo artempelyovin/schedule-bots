@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Generic, TypeVar
+from datetime import date
 
 from vkbottle import KeyboardButtonColor
 
 from be.db.models import DayOfWeek, Group, Institute, Lesson, University
+from be.utils import is_numerator, is_denominator
 from fe.common.constants import (
     ABOUT_BOT_BUTTON_TEXT,
     ABOUT_BOT_MESSAGE,
@@ -277,6 +279,16 @@ class DisplayScheduleDialog(Dialog):
         DayOfWeek.SATURDAY: SATURDAY_BUTTON_TEXT,
         DayOfWeek.SUNDAY: SUNDAY_BUTTON_TEXT,
     }
+    DAY_OF_WEEK_BY_DAY_NUMBER = {
+        0: DayOfWeek.MONDAY,
+        1: DayOfWeek.TUESDAY,
+        2: DayOfWeek.WEDNESDAY,
+        3: DayOfWeek.THURSDAY,
+        4: DayOfWeek.FRIDAY,
+        5: DayOfWeek.SATURDAY,
+        6: DayOfWeek.SUNDAY,
+    }
+    DAY_NUMBER_BY_DAY_OF_WEEK = {v: k for k, v in DAY_OF_WEEK_BY_DAY_NUMBER.items()}
 
     def __init__(self, lessons: list[Lesson], current_payload: DisplaySchedulePayload) -> None:
         self._current_payload = current_payload
@@ -284,12 +296,16 @@ class DisplayScheduleDialog(Dialog):
 
     @property
     def message(self) -> str:
-        day = self.BUTTON_LABEL_BY_DAY_OF_WEEK[self._current_payload.day]
+        day = self.TEXT_BY_DAY_OF_WEEK[self._current_payload.day]
         day_type = NUMERATOR_TEXT if self._current_payload.is_numerator else DENOMINATOR_TEXT
-        title = SCHEDULE_TITLE_MESSAGE.format(day=day, day_type=day_type)
+        date_ = date.today()
+        if is_numerator() and not self._current_payload.is_numerator or is_denominator() and self._current_payload.is_numerator:
+            date_ += timedelta(days=7)  # +1 неделя
+        date_ += timedelta(days=self.DAY_NUMBER_BY_DAY_OF_WEEK[self._current_payload.day])
+        title = SCHEDULE_TITLE_MESSAGE.format(day=day, day_type=day_type, date=date_.strftime("%d.%m.%Y"))
         if not self._lessons:
-            return f"{title}\n{NOT_LESSONS_MESSAGE}"
-        message = f"{title}\n"
+            return f"{title}\n\n{NOT_LESSONS_MESSAGE}"
+        message = f"{title}\n\n"
         for lesson in self._lessons:
             message += LESSON_MESSAGE.format(
                 lesson_number=lesson.lesson_number,
@@ -335,18 +351,9 @@ class DisplayScheduleDialog(Dialog):
         label = CURRENT_WEEK_BUTTON if self._current_payload.is_numerator else NEXT_WEEK_BUTTON
         next_week_payload = self._current_payload.copy()
         next_week_payload.is_numerator = not self._current_payload.is_numerator  # инверсия
-        return Button(label=label, payload=next_week_payload, color=KeyboardButtonColor.PRIMARY)
+        color = KeyboardButtonColor.POSITIVE if self._current_payload.is_numerator else KeyboardButtonColor.PRIMARY
+        return Button(label=label, payload=next_week_payload, color=color)
 
-    @staticmethod
-    def color_by_dayofweek(dayofweek: DayOfWeek) -> KeyboardButtonColor:
-        day_by_weekday = {
-            0: DayOfWeek.MONDAY,
-            1: DayOfWeek.TUESDAY,
-            2: DayOfWeek.WEDNESDAY,
-            3: DayOfWeek.THURSDAY,
-            4: DayOfWeek.FRIDAY,
-            5: DayOfWeek.SATURDAY,
-            6: DayOfWeek.SUNDAY,
-        }
+    def color_by_dayofweek(self, dayofweek: DayOfWeek) -> KeyboardButtonColor:
         today = datetime.now().weekday()
-        return KeyboardButtonColor.POSITIVE if day_by_weekday[today] == dayofweek else KeyboardButtonColor.PRIMARY
+        return KeyboardButtonColor.POSITIVE if self.DAY_OF_WEEK_BY_DAY_NUMBER[today] == dayofweek else KeyboardButtonColor.PRIMARY

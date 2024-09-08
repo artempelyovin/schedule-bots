@@ -46,8 +46,8 @@ CHOICE_UNIVERSITY_MESSAGE = "Выберите университет ({start}-{s
 CHOICE_INSTITUTE_MESSAGE = "Выберите институт ({start}-{stop} из {total}):"
 CHOICE_COURSE_MESSAGE = "Выберите курс ({start}-{stop} из {total}):"
 CHOICE_GROUP_MESSAGE = "Выберите группу ({start}-{stop} из {total}):"
-SCHEDULE_TITLE_MESSAGE = "Расписание на {day} ({day_type})"
-LESSON_MESSAGE = """➖ {lesson_number} пара ({start_time} - {end_time}
+SCHEDULE_TITLE_MESSAGE = "{day_type} {day} ({date})"
+LESSON_MESSAGE = """➖ {lesson_number} пара ({start_time} - {end_time})
 {content}
 """
 NOT_LESSONS_MESSAGE = "➖ Нет пар❗"
@@ -58,8 +58,8 @@ THURSDAY_TEXT = "Четверг"
 FRIDAY_TEXT = "Пятница"
 SATURDAY_TEXT = "Суббота"
 SUNDAY_TEXT = "Воскресенье"
-NUMERATOR_TEXT = "числитель ⚪"
-DENOMINATOR_TEXT = "знаменатель 🟡"
+NUMERATOR_TEXT = "⚪"
+DENOMINATOR_TEXT = "🟡"
 
 
 # =============================================
