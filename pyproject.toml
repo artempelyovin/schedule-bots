@@ -9,11 +9,15 @@ packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "~3.11"
-pydantic = "^2.9.0"
+pydantic = "1.10.18"   # vkbottle пока что использует только v1 :(
 sqlalchemy = "^2.0.34"
 alembic = "^1.13.2"
 asyncpg = "^0.29.0"
 greenlet = "^3.0.3"  # TODO: почему `alembic` не подцепляет автоматом?
+
+
+[tool.poetry.group.vk.dependencies]
+vkbottle = "^4.3.12"
 
 
 [tool.poetry.group.dev.dependencies]

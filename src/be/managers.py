@@ -1,11 +1,12 @@
 from collections.abc import Sequence
 from datetime import date, time
+from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import exists, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from be.db import Session
-from be.db.models import DayOfWeek
+from be.db.models import DayOfWeek, MessengerType, User, UserState
 from src.be.db.models import Group, Institute, Lesson, University
 
 
@@ -18,9 +19,9 @@ class UniversityManager:
         return university
 
     @staticmethod
-    async def get_all() -> Sequence[University]:
+    async def get_all() -> list[University]:
         async with Session() as session:
-            query = select(University)
+            query = select(University).order_by(University.name)
             return (await session.execute(query)).unique().scalars().all()
 
     @staticmethod
@@ -39,9 +40,9 @@ class InstituteManager:
         return institute
 
     @staticmethod
-    async def get_by_university(university_id: int) -> Sequence[Institute]:
+    async def get_by_university(university_id: int) -> list[Institute]:
         async with Session() as session:
-            query = select(Institute).where(Institute.university_id == university_id)
+            query = select(Institute).where(Institute.university_id == university_id).order_by(Institute.name)
             return (await session.execute(query)).unique().scalars().all()
 
     @staticmethod
@@ -71,6 +72,30 @@ class GroupManager:
             return (await session.execute(query)).unique().scalars().all()
 
     @staticmethod
+    async def get_courses_info_by_institute(institute_id: int) -> list[tuple[int, bool]]:
+        async with Session() as session:
+            query = (
+                select(Group.course, Group.is_magistracy)
+                .where(Group.institute_id == institute_id)
+                .group_by(Group.course, Group.is_magistracy)
+                .order_by(Group.is_magistracy.asc(), Group.course.asc())
+            )
+
+            return (await session.execute(query)).all()
+
+    @staticmethod
+    async def get_by_institute_and_course(institute_id: int, course: int, is_magistracy: bool) -> list[Group]:
+        async with Session() as session:
+            query = (
+                select(Group)
+                .where(Group.institute_id == institute_id)
+                .where(Group.course == course)
+                .where(Group.is_magistracy == is_magistracy)
+                .order_by(Group.name)
+            )
+            return (await session.execute(query)).scalars().all()
+
+    @staticmethod
     async def get_by_id(group_id: int) -> Group | None:
         async with Session() as session:
             query = select(Group).where(Group.id == group_id)
@@ -84,10 +109,11 @@ class GroupManager:
 
 class LessonManager:
     @staticmethod
-    async def add(
+    async def add(  # noqa: PLR0913
         session: AsyncSession,
         is_numerator: bool,
         day: DayOfWeek,
+        lesson_number: int,
         start_time: time,
         end_time: time,
         content: list[str],
@@ -98,6 +124,7 @@ class LessonManager:
         lesson = Lesson(
             is_numerator=is_numerator,
             day=day,
+            lesson_number=lesson_number,
             start_time=start_time,
             end_time=end_time,
             content=content,
@@ -110,15 +137,71 @@ class LessonManager:
         return lesson
 
     @staticmethod
-    async def get_lessons_by_group(group_id: int) -> Sequence[Lesson]:
-        async with Session() as session:
-            query = select(Lesson).where(Lesson.group_id == group_id).order_by(Lesson.day, Lesson.start_time)
-            return (await session.execute(query)).unique().scalars().all()
-
-    @staticmethod
-    async def get_lessons_by_group_and_day(group_id: int, day: DayOfWeek) -> Sequence[Lesson]:
+    async def get_lessons(group_id: int, day: DayOfWeek, is_numerator: bool) -> list[Lesson]:
+        today = date.today()
         async with Session() as session:
             query = (
-                select(Lesson).where((Lesson.group_id == group_id) & (Lesson.day == day)).order_by(Lesson.start_time)
+                select(Lesson)
+                .where(Lesson.group_id == group_id)
+                .where(Lesson.day == day)
+                .where(Lesson.is_numerator == is_numerator)
+                .where(Lesson.valid_from <= today)
+                .where(Lesson.valid_to >= today)
+                .order_by(Lesson.start_time)
             )
-            return (await session.execute(query)).unique().scalars().all()
+            return (await session.execute(query)).scalars().all()
+
+
+class UserManager:
+    @staticmethod
+    async def add(  # noqa: PLR0913
+        user_id: int,
+        username: str | None,
+        first_name: str,
+        last_name: str,
+        messenger: MessengerType,
+        state: UserState = UserState.START,
+        payload: dict[str, Any] | None = None,
+    ) -> User:
+        async with Session() as session:
+            user = User(
+                user_id=user_id,
+                username=username,
+                first_name=first_name,
+                last_name=last_name,
+                messenger=messenger,
+                state=state,
+                payload=payload,
+            )
+            session.add(user)
+            await session.commit()
+            await session.refresh(user)
+            return user
+
+    @staticmethod
+    async def exists(user_id: int, messenger: MessengerType) -> bool:
+        async with Session() as session:
+            query = select(exists(User.id).where(User.user_id == user_id).where(User.messenger == messenger))
+            return (await session.execute(query)).scalar()
+
+    @staticmethod
+    async def get(user_id: int, messenger: MessengerType) -> User | None:
+        async with Session() as session:
+            query = select(User).where(User.user_id == user_id).where(User.messenger == messenger)
+            return (await session.execute(query)).scalar_one_or_none()
+
+    @staticmethod
+    async def update_state_and_payload(
+        user_id: int,
+        messenger: MessengerType,
+        state: UserState,
+        current_payload: dict[str, Any] | None,
+    ) -> User:
+        async with Session() as session:
+            query = select(User).where(User.user_id == user_id).where(User.messenger == messenger)
+            user = (await session.execute(query)).scalar()
+            user.state = state
+            user.payload = current_payload
+            await session.commit()
+            await session.refresh(user)
+            return user
