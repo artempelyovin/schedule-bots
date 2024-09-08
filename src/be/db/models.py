@@ -86,7 +86,7 @@ class Lesson(Base, TimestampMixin):
     lesson_number: Mapped[int] = mapped_column(SmallInteger)
     start_time: Mapped[time] = mapped_column(Time)
     end_time: Mapped[time] = mapped_column(Time)
-    content: Mapped[list[str]] = mapped_column(JSON)  # TODO: со временем более "правильное" название
+    content: Mapped[list[str] | None] = mapped_column(JSON)  # TODO: со временем более "правильное" название
     valid_from: Mapped[date] = mapped_column(Date)
     valid_to: Mapped[date] = mapped_column(Date)
     group_id: Mapped[int] = mapped_column(ForeignKey("group.id"))
