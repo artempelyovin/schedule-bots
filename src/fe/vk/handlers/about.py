@@ -4,7 +4,8 @@ from vkbottle_types.events import GroupEventType
 
 from be.db.models import UserState
 from fe.common.dialogs import AboutBotDialog
-from fe.vk.utils import StateFromPayloadRule, generate_vk_keyboard, save_user
+from fe.common.payloads import AboutBotPayload
+from fe.vk.utils import PayloadIsPydanticModelRule, StateFromPayloadRule, generate_vk_keyboard, save_user
 
 labeler = BotLabeler()
 dialog = AboutBotDialog()
@@ -14,6 +15,7 @@ dialog = AboutBotDialog()
     GroupEventType.MESSAGE_EVENT,
     MessageEvent,
     StateFromPayloadRule(UserState.ABOUT_BOT),
+    PayloadIsPydanticModelRule(AboutBotPayload),
 )
 @save_user
 async def about_bot_handler(event: MessageEvent):

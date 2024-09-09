@@ -2,6 +2,7 @@ import logging
 from collections.abc import Callable
 from typing import Any
 
+from pydantic import BaseModel, ValidationError
 from vkbottle import ABCRule, Callback
 from vkbottle import Keyboard as VkKeyboard
 from vkbottle.tools.dev.mini_types.base import BaseMessageMin
@@ -35,6 +36,19 @@ class StateFromPayloadRule(ABCRule[BaseMessageMin]):
         if not event.payload or "state" not in event.payload:
             return False
         return event.payload["state"] == self.state
+
+
+class PayloadIsPydanticModelRule(ABCRule[BaseMessageMin]):
+    def __init__(self, model: type[BaseModel]):
+        self.model = model
+
+    async def check(self, event: BaseMessageMin) -> bool:
+        try:
+            self.model.validate(event.payload)
+        except ValidationError:
+            return False
+        else:
+            return True
 
 
 def save_user(func: Callable[[MessageEventMin], Any]) -> Callable[[MessageEventMin], Any]:

@@ -6,7 +6,7 @@ from be.db.models import UserState
 from be.managers import GroupManager
 from fe.common.dialogs import ChoiceGroupDialog
 from fe.common.payloads import ChoiceGroupPayload
-from fe.vk.utils import StateFromPayloadRule, generate_vk_keyboard, save_user
+from fe.vk.utils import PayloadIsPydanticModelRule, StateFromPayloadRule, generate_vk_keyboard, save_user
 
 labeler = BotLabeler()
 
@@ -15,6 +15,7 @@ labeler = BotLabeler()
     GroupEventType.MESSAGE_EVENT,
     MessageEvent,
     StateFromPayloadRule(UserState.CHOICE_GROUP),
+    PayloadIsPydanticModelRule(ChoiceGroupPayload),
 )
 @save_user
 async def choice_group_handler(event: MessageEvent):

@@ -6,7 +6,7 @@ from be.db.models import UserState
 from be.managers import LessonManager
 from fe.common.dialogs import DisplayScheduleDialog
 from fe.common.payloads import DisplaySchedulePayload
-from fe.vk.utils import StateFromPayloadRule, generate_vk_keyboard, save_user
+from fe.vk.utils import PayloadIsPydanticModelRule, StateFromPayloadRule, generate_vk_keyboard, save_user
 
 labeler = BotLabeler()
 
@@ -15,6 +15,7 @@ labeler = BotLabeler()
     GroupEventType.MESSAGE_EVENT,
     MessageEvent,
     StateFromPayloadRule(UserState.DISPLAY_SCHEDULE),
+    PayloadIsPydanticModelRule(DisplaySchedulePayload),
 )
 @save_user
 async def display_schedule_handler(event: MessageEvent):

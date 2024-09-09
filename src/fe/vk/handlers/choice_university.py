@@ -6,7 +6,7 @@ from be.db.models import UserState
 from be.managers import UniversityManager
 from fe.common.dialogs import ChoiceUniversityDialog
 from fe.common.payloads import ChoiceUniversityPayload
-from fe.vk.utils import StateFromPayloadRule, generate_vk_keyboard, save_user
+from fe.vk.utils import PayloadIsPydanticModelRule, StateFromPayloadRule, generate_vk_keyboard, save_user
 
 labeler = BotLabeler()
 
@@ -15,6 +15,7 @@ labeler = BotLabeler()
     GroupEventType.MESSAGE_EVENT,
     MessageEvent,
     StateFromPayloadRule(UserState.CHOICE_UNIVERSITY),
+    PayloadIsPydanticModelRule(ChoiceUniversityPayload),
 )
 @save_user
 async def choice_university_handler(event: MessageEvent):
