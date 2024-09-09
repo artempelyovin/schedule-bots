@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import date, datetime, timedelta
-from typing import Generic, TypeVar
+from typing import Final, Generic, TypeVar
 
 from vkbottle import KeyboardButtonColor
 
@@ -261,7 +261,7 @@ class ChoiceGroupDialog(PaginationDialog[Group]):
 
 
 class DisplayScheduleDialog(Dialog):
-    TEXT_BY_DAY_OF_WEEK = {
+    TEXT_BY_DAY_OF_WEEK: Final = {
         DayOfWeek.MONDAY: MONDAY_TEXT,
         DayOfWeek.TUESDAY: TUESDAY_TEXT,
         DayOfWeek.WEDNESDAY: WEDNESDAY_TEXT,
@@ -271,7 +271,7 @@ class DisplayScheduleDialog(Dialog):
         DayOfWeek.SUNDAY: SUNDAY_TEXT,
     }
 
-    BUTTON_LABEL_BY_DAY_OF_WEEK = {
+    BUTTON_LABEL_BY_DAY_OF_WEEK: Final = {
         DayOfWeek.MONDAY: MONDAY_BUTTON_TEXT,
         DayOfWeek.TUESDAY: TUESDAY_BUTTON_TEXT,
         DayOfWeek.WEDNESDAY: WEDNESDAY_BUTTON_TEXT,
@@ -280,7 +280,7 @@ class DisplayScheduleDialog(Dialog):
         DayOfWeek.SATURDAY: SATURDAY_BUTTON_TEXT,
         DayOfWeek.SUNDAY: SUNDAY_BUTTON_TEXT,
     }
-    DAY_OF_WEEK_BY_DAY_NUMBER = {
+    DAY_OF_WEEK_BY_DAY_NUMBER: Final = {
         0: DayOfWeek.MONDAY,
         1: DayOfWeek.TUESDAY,
         2: DayOfWeek.WEDNESDAY,
@@ -289,7 +289,7 @@ class DisplayScheduleDialog(Dialog):
         5: DayOfWeek.SATURDAY,
         6: DayOfWeek.SUNDAY,
     }
-    DAY_NUMBER_BY_DAY_OF_WEEK = {v: k for k, v in DAY_OF_WEEK_BY_DAY_NUMBER.items()}
+    DAY_NUMBER_BY_DAY_OF_WEEK: Final = {v: k for k, v in DAY_OF_WEEK_BY_DAY_NUMBER.items()}
 
     def __init__(self, lessons: list[Lesson], current_payload: DisplaySchedulePayload) -> None:
         self._current_payload = current_payload
