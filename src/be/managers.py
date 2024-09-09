@@ -1,6 +1,6 @@
 from collections.abc import Sequence
 from datetime import UTC, date, datetime, time
-from typing import Any
+from typing import Any, TypeAlias
 
 from sqlalchemy import exists, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -8,6 +8,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from be.db import Session
 from be.db.models import DayOfWeek, MessengerType, User, UserState
 from src.be.db.models import Group, Institute, Lesson, University
+
+CourseNumber: TypeAlias = int
+IsMagistracy: TypeAlias = bool
+CourseInfo: TypeAlias = tuple[CourseNumber, IsMagistracy]
 
 
 class UniversityManager:
@@ -72,7 +76,7 @@ class GroupManager:
             return (await session.execute(query)).unique().scalars().all()
 
     @staticmethod
-    async def get_courses_info_by_institute(institute_id: int) -> list[tuple[int, bool]]:
+    async def get_courses_info_by_institute(institute_id: int) -> list[CourseInfo]:
         async with Session() as session:
             query = (
                 select(Group.course, Group.is_magistracy)

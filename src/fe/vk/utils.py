@@ -1,5 +1,6 @@
 import logging
 from collections.abc import Callable
+from typing import Any
 
 from vkbottle import ABCRule, Callback
 from vkbottle import Keyboard as VkKeyboard
@@ -36,7 +37,7 @@ class StateFromPayloadRule(ABCRule[BaseMessageMin]):
         return event.payload["state"] == self.state
 
 
-def save_user(func: Callable[[MessageEventMin], ...]) -> Callable[[MessageEventMin], ...]:
+def save_user(func: Callable[[MessageEventMin], Any]) -> Callable[[MessageEventMin], Any]:
     async def async_wrapper(event: MessageEventMin) -> None:
         def get_state_from_payload(payload: dict | None) -> UserState:
             if not payload or "state" not in payload:

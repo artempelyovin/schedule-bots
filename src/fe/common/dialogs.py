@@ -5,6 +5,7 @@ from typing import Final, Generic, TypeVar
 from vkbottle import KeyboardButtonColor
 
 from be.db.models import DayOfWeek, Group, Institute, Lesson, University
+from be.managers import CourseInfo
 from be.utils import is_denominator, is_numerator
 from fe.common.constants import (
     ABOUT_BOT_BUTTON_TEXT,
@@ -197,7 +198,7 @@ class ChoiceInstituteDialog(PaginationDialog[Institute]):
 
 
 class ChoiceCourseDialog(PaginationDialog[list[tuple[int, bool]]]):
-    def __init__(self, courses_info: list[tuple[int, bool]], current_payload: ChoiceCoursePayload) -> None:
+    def __init__(self, courses_info: list[CourseInfo], current_payload: ChoiceCoursePayload) -> None:
         super().__init__(entities=courses_info, current_payload=current_payload)
 
     @property
