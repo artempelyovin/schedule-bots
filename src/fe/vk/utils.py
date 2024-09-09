@@ -22,7 +22,7 @@ def generate_vk_keyboard(keyboard: Keyboard) -> str:
         elif isinstance(object_, Row):
             vk_keyboard.row()
         else:
-            raise ValueError(f"Получен неизвестный тип {type(object_)} при формировании VK клавиатуры")
+            raise TypeError(f"Получен неизвестный тип {type(object_)} при формировании VK клавиатуры")
     return vk_keyboard.get_json()
 
 
