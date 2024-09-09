@@ -1,12 +1,11 @@
 from abc import ABC, abstractmethod
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Generic, TypeVar
-from datetime import date
 
 from vkbottle import KeyboardButtonColor
 
 from be.db.models import DayOfWeek, Group, Institute, Lesson, University
-from be.utils import is_numerator, is_denominator
+from be.utils import is_denominator, is_numerator
 from fe.common.constants import (
     ABOUT_BOT_BUTTON_TEXT,
     ABOUT_BOT_MESSAGE,
@@ -17,6 +16,7 @@ from fe.common.constants import (
     CHOICE_UNIVERSITY_MESSAGE,
     COURSE_BUTTON_TEXT,
     COURSE_MAGISTRACY_BUTTON_TEXT,
+    CURRENT_WEEK_BUTTON,
     DENOMINATOR_TEXT,
     ERROR_REPORT_BUTTON_TEXT,
     ERROR_REPORT_MESSAGE,
@@ -27,6 +27,7 @@ from fe.common.constants import (
     LESSON_MESSAGE,
     MONDAY_BUTTON_TEXT,
     MONDAY_TEXT,
+    NEXT_WEEK_BUTTON,
     NOT_LESSONS_MESSAGE,
     NUMERATOR_TEXT,
     SATURDAY_BUTTON_TEXT,
@@ -41,7 +42,7 @@ from fe.common.constants import (
     UNIVERSITY_BUTTON_TEXT,
     VK_START_MESSAGE,
     WEDNESDAY_BUTTON_TEXT,
-    WEDNESDAY_TEXT, NEXT_WEEK_BUTTON, CURRENT_WEEK_BUTTON,
+    WEDNESDAY_TEXT,
 )
 from fe.common.keyboards import Button, Keyboard, Row, _generate_pagination_keyboard
 from fe.common.payloads import (
@@ -299,7 +300,12 @@ class DisplayScheduleDialog(Dialog):
         day = self.TEXT_BY_DAY_OF_WEEK[self._current_payload.day]
         day_type = NUMERATOR_TEXT if self._current_payload.is_numerator else DENOMINATOR_TEXT
         date_ = date.today()
-        if is_numerator() and not self._current_payload.is_numerator or is_denominator() and self._current_payload.is_numerator:
+        if (
+            is_numerator()
+            and not self._current_payload.is_numerator
+            or is_denominator()
+            and self._current_payload.is_numerator
+        ):
             date_ += timedelta(days=7)  # +1 неделя
         date_ += timedelta(days=self.DAY_NUMBER_BY_DAY_OF_WEEK[self._current_payload.day])
         title = SCHEDULE_TITLE_MESSAGE.format(day=day, day_type=day_type, date=date_.strftime("%d.%m.%Y"))
@@ -331,7 +337,7 @@ class DisplayScheduleDialog(Dialog):
             self.back_button(),
             self.next_week_button(),
             Row(),
-            ERROR_REPORT_BUTTON
+            ERROR_REPORT_BUTTON,
         ]
 
     def day_button(self, dayofweek: DayOfWeek) -> Button:
@@ -343,9 +349,10 @@ class DisplayScheduleDialog(Dialog):
 
     def back_button(self) -> Button:
         return Button(
-                label=BACK_BUTTON_TEXT,
-                payload=ChoiceGroupPayload(**self._current_payload.dict()),
-                color=KeyboardButtonColor.PRIMARY)
+            label=BACK_BUTTON_TEXT,
+            payload=ChoiceGroupPayload(**self._current_payload.dict()),
+            color=KeyboardButtonColor.PRIMARY,
+        )
 
     def next_week_button(self) -> Button:
         label = CURRENT_WEEK_BUTTON if self._current_payload.is_numerator else NEXT_WEEK_BUTTON
@@ -356,4 +363,8 @@ class DisplayScheduleDialog(Dialog):
 
     def color_by_dayofweek(self, dayofweek: DayOfWeek) -> KeyboardButtonColor:
         today = datetime.now().weekday()
-        return KeyboardButtonColor.POSITIVE if self.DAY_OF_WEEK_BY_DAY_NUMBER[today] == dayofweek else KeyboardButtonColor.PRIMARY
+        return (
+            KeyboardButtonColor.POSITIVE
+            if self.DAY_OF_WEEK_BY_DAY_NUMBER[today] == dayofweek
+            else KeyboardButtonColor.PRIMARY
+        )

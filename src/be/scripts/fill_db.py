@@ -97,7 +97,7 @@ async def main() -> None:
                             group_id=group.id,
                             valid_from=valid_from,
                             valid_to=valid_to,
-                    )
+                        )
                 if daily_schedule.denominator:
                     for lesson in daily_schedule.denominator:
                         await LessonManager.add(
@@ -111,7 +111,7 @@ async def main() -> None:
                             group_id=group.id,
                             valid_from=valid_from,
                             valid_to=valid_to,
-                    )
+                        )
         await session.commit()
     except Exception:
         logger.exception("Database error:")

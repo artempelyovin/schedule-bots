@@ -11,5 +11,5 @@ def is_numerator() -> bool:  # TODO(issue-1): add unit tests
     return week_number % 2 == 0
 
 
-def is_denominator() -> bool:   # TODO(issue-1): add unit tests
+def is_denominator() -> bool:  # TODO(issue-1): add unit tests
     return not is_numerator()
