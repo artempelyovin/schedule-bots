@@ -24,7 +24,7 @@ class ChoiceUniversityPayload(PaginationPayload):
     offset: int = 0
 
     @validator("state", always=True)
-    def set_state(cls, _) -> str:  # noqa: B904, N805
+    def set_state(cls, _) -> str:  # noqa: N805
         return UserState.CHOICE_UNIVERSITY
 
 
@@ -33,7 +33,7 @@ class ChoiceInstitutePayload(ChoiceUniversityPayload):
     offset: int = 0
 
     @validator("state", always=True)
-    def set_state(cls, _) -> str:  # noqa: B904, N805
+    def set_state(cls, _) -> str:  # noqa: N805
         return UserState.CHOICE_INSTITUTE
 
 
@@ -41,7 +41,7 @@ class ChoiceCoursePayload(ChoiceInstitutePayload):
     institute_id: int
 
     @validator("state", always=True)
-    def set_state(cls, _) -> str:  # noqa: B904, N805
+    def set_state(cls, _) -> str:  # noqa: N805
         return UserState.CHOICE_COURSE
 
 
@@ -50,7 +50,7 @@ class ChoiceGroupPayload(ChoiceCoursePayload):
     is_magistracy: bool
 
     @validator("state", always=True)
-    def set_state(cls, _) -> str:  # noqa: B904, N805
+    def set_state(cls, _) -> str:  # noqa: N805
         return UserState.CHOICE_GROUP
 
 
@@ -60,5 +60,5 @@ class DisplaySchedulePayload(ChoiceGroupPayload):
     is_numerator: bool = True
 
     @validator("state", always=True)
-    def set_state(cls, _) -> str:  # noqa: B904, N805
+    def set_state(cls, _) -> str:  # noqa: N805
         return UserState.DISPLAY_SCHEDULE
