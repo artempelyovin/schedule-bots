@@ -3,7 +3,7 @@ import argparse
 import asyncio
 import json
 import logging
-from datetime import datetime, time
+from datetime import UTC, datetime, time
 from pathlib import Path
 from typing import Literal
 
@@ -56,11 +56,11 @@ def load_schedule(filepath: str) -> list[GroupSchedule]:
 async def main() -> None:
     filepath = getattr(args, "from")
     try:
-        valid_from = datetime.strptime(args.valid_from, "%Y-%m-%d").date()
+        valid_from = datetime.strptime(args.valid_from, "%Y-%m-%d").astimezone(tz=UTC).date()
     except ValueError:
         raise ValueError("Параметр --valid-from должен быть в формате YYYY-MM-DD") from None
     try:
-        valid_to = datetime.strptime(args.valid_to, "%Y-%m-%d").date()
+        valid_to = datetime.strptime(args.valid_to, "%Y-%m-%d").astimezone(tz=UTC).date()
     except ValueError:
         raise ValueError("Параметр --valid-to должен быть в формате YYYY-MM-DD") from None
 
