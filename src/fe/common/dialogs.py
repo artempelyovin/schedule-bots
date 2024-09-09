@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import date, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from typing import Final, Generic, TypeVar
 
 from vkbottle import KeyboardButtonColor
@@ -362,7 +362,7 @@ class DisplayScheduleDialog(Dialog):
         return Button(label=label, payload=next_week_payload, color=color)
 
     def color_by_dayofweek(self, dayofweek: DayOfWeek) -> KeyboardButtonColor:
-        today = datetime.now().weekday()
+        today = datetime.now(tz=UTC).weekday()
         return (
             KeyboardButtonColor.POSITIVE
             if self.DAY_OF_WEEK_BY_DAY_NUMBER[today] == dayofweek
