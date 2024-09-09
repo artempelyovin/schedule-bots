@@ -1,5 +1,3 @@
-from typing import Type
-
 from pydantic import BaseModel, validator
 
 from be.db.models import DayOfWeek, UserState
@@ -9,7 +7,7 @@ class Payload(BaseModel):
     state: str = UserState.START
 
     @classmethod
-    def to_map(cls) -> list[tuple[str, Type]]:
+    def to_map(cls) -> list[tuple[str, type]]:
         return [(field_name, field.type_) for field_name, field in cls.__fields__.items()]
 
 

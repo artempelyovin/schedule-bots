@@ -1,5 +1,5 @@
 import logging
-from typing import Callable
+from collections.abc import Callable
 
 from vkbottle import ABCRule, Callback
 from vkbottle import Keyboard as VkKeyboard
