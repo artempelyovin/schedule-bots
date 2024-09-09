@@ -6,6 +6,7 @@ PROJECT_DIR ?= $(shell git rev-parse --show-toplevel)
 install-dev:
 	poetry env use 3.11
 	poetry install --with dev
+	poetry run pre-commit install --install-hooks --hook-type pre-commit --hook-type commit-msg
 
 
 .PHONY: activate-env
