@@ -73,8 +73,11 @@ select = [
     "RUF",   # Ruff-specific rules
 ]
 ignore = [
-    "RUF001", # ambiguous-unicode-character-string
-    "RUF003", # ambiguous-unicode-character-comment
+    "ISC001",  # single-line-implicit-string-concatenation (skip it because it conflicts with `ruff format`)
+    "TRY003",  # raise-vanilla-args (skip it because it requires a lot of code for custom exceptions)
+    "RUF001",  # ambiguous-unicode-character-string (skip it because many false positives)
+    "RUF002",  # ambiguous-unicode-character-docstring (skip it because many false positives)
+    "RUF003",  # ambiguous-unicode-character-comment (skip it because many false positives)
 ]
 
 
