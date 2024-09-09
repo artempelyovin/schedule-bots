@@ -34,11 +34,11 @@ def _generate_pagination_keyboard(
         [              error_report_button               ]
     """
     offset = current_payload.offset
-    if len(buttons) <= 6:  # тупо нечего двигать, всё убирается на одной странице:)
+    if len(buttons) <= 6:  # тупо нечего двигать, всё убирается на одной странице:)  # noqa: PLR2004
         prevision_offset = 0
         next_offset = 0
     else:
-        prevision_offset = offset - 6 if offset >= 6 else 0
+        prevision_offset = offset - 6 if offset >= 6 else 0  # noqa: PLR2004
         next_offset = offset + 6 if offset + 6 < len(buttons) else len(buttons) - offset
 
     left_button_color = KeyboardButtonColor.SECONDARY if offset == 0 else KeyboardButtonColor.PRIMARY
