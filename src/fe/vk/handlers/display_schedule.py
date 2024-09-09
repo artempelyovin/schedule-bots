@@ -1,5 +1,4 @@
 from vkbottle.bot import MessageEvent
-from vkbottle.dispatch.rules.base import PayloadMapRule
 from vkbottle.framework.labeler import BotLabeler
 from vkbottle_types.events import GroupEventType
 
@@ -16,7 +15,6 @@ labeler = BotLabeler()
     GroupEventType.MESSAGE_EVENT,
     MessageEvent,
     StateFromPayloadRule(UserState.DISPLAY_SCHEDULE),
-    # PayloadMapRule(DisplaySchedulePayload.to_map()),
 )
 @save_user
 async def display_schedule_handler(event: MessageEvent):
