@@ -1,5 +1,5 @@
 from collections.abc import Sequence
-from datetime import date, time
+from datetime import UTC, date, datetime, time
 from typing import Any
 
 from sqlalchemy import exists, select
@@ -138,7 +138,7 @@ class LessonManager:
 
     @staticmethod
     async def get_lessons(group_id: int, day: DayOfWeek, is_numerator: bool) -> list[Lesson]:
-        today = date.today()
+        today = datetime.now(tz=UTC).date()
         async with Session() as session:
             query = (
                 select(Lesson)

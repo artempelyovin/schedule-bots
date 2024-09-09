@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import UTC, datetime
 
 
 def is_numerator() -> bool:  # TODO(issue-1): add unit tests
@@ -6,7 +6,7 @@ def is_numerator() -> bool:  # TODO(issue-1): add unit tests
     Определяем является ли текущая неделя числителем.
     Все чётные недели года - числители, все нечётные - знаменатели
     """
-    today = date.today()
+    today = datetime.now(tz=UTC).date()
     week_number = today.isocalendar()[1]  # формат: (год, номер недели, номер дня недели)
     return week_number % 2 == 0
 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import UTC, date, datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import Final, Generic, TypeVar
 
 from vkbottle import KeyboardButtonColor
@@ -299,7 +299,7 @@ class DisplayScheduleDialog(Dialog):
     def message(self) -> str:
         day = self.TEXT_BY_DAY_OF_WEEK[self._current_payload.day]
         day_type = NUMERATOR_TEXT if self._current_payload.is_numerator else DENOMINATOR_TEXT
-        date_ = date.today()
+        date_ = datetime.now(tz=UTC).date()
         if (
             is_numerator()
             and not self._current_payload.is_numerator
