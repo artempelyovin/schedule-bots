@@ -57,11 +57,11 @@ async def main() -> None:
     try:
         valid_from = datetime.strptime(args.valid_from, "%Y-%m-%d").date()
     except ValueError:
-        raise ValueError("Параметр --valid-from должен быть в формате YYYY-MM-DD")
+        raise ValueError("Параметр --valid-from должен быть в формате YYYY-MM-DD") from None
     try:
         valid_to = datetime.strptime(args.valid_to, "%Y-%m-%d").date()
     except ValueError:
-        raise ValueError("Параметр --valid-to должен быть в формате YYYY-MM-DD")
+        raise ValueError("Параметр --valid-to должен быть в формате YYYY-MM-DD") from None
 
     schedule = load_schedule(filepath=filepath)
 
